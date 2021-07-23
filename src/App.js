@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
+import Form from './components/Form.js'
+import ToDo from './components/ToDo.js'
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    const [todos, setTodos] = React.useState([
+      {
+        text: 'learn react',
+        isCompleted: false,
+      },
+      {
+        text: 'meet friend for lunch',
+        isCompleted: false,
+      },
+      {
+        text: 'build todo app',
+        isCompleted: false,
+      }        
+    ]);
+  
+    const addTodo = text => {
+      const newTodos = [...todos, {text, isCompleted:false}];
+      setTodos(newTodos);
+    }
+    const removeTodo = index => {
+      let temp = [...todos];    
+      temp.splice(index, 1);
+      setTodos(temp);
+    }
+  
+    return(
+      <div className="app">
+        <div className="todo-list" >
+          {todos.map((todo, i) => (
+            <ToDo key={i} index={i} todo={todo} remove={removeTodo}/>
+          ))}
+          <Form addTodo={addTodo} />
+        </div>
+      </div>
+    );
+  }
 
 export default App;
